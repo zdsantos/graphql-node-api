@@ -1,5 +1,6 @@
 # GraphQL Node Api
 
+A project for study purpose, following steps of "Criando API's com Nodejs, GraphQL, JWT e Sequelize" course from Udemy.
 ### Setup
 
 1. Set following environment variables:

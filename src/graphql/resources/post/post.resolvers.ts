@@ -1,4 +1,6 @@
+import * as graphqlFields from 'graphql-fields';
 import { GraphQLResolveInfo } from "graphql";
+
 import { DbConnection } from "../../../interfaces/DbConnectionInterface";
 import { PostInstance } from "../../../models/PostModel";
 import { Transaction } from "sequelize";
@@ -6,15 +8,15 @@ import { handleError, throwError } from "../../../utils/utils";
 import { compose } from "../../composable/composable.resolver";
 import { authResolvers } from "../../composable/auth.resolver";
 import { AuthUser } from "../../../interfaces/AuthUserInterface";
+import { DataLoaders } from "../../../interfaces/DataLoaderInterface";
 
 export const postResolvers = {
 
   Post: {
 
-    author: (post, {id}, {db}: {db: DbConnection}, info: GraphQLResolveInfo) => {
-      console.log('buscando o author');
-      return db.User
-        .findById(post.get('author'))
+    author: (post, {id}, {db, dataloaders: {userLoader}}: {db: DbConnection, dataloaders: DataLoaders}, info: GraphQLResolveInfo) => {
+      return userLoader
+        .load(post.get('author'))
         .catch(handleError);
     },
 
